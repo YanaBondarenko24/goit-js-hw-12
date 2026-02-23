@@ -16,13 +16,11 @@
     <script type="module" crossorigin src="/goit-js-hw-12/index.js"></script>
     <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-CctE18Lr.js">
     <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/vendor-CWKLx11g.css">
-    <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/index-CVp-5TVn.css">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/index-DUH3v3TM.css">
   </head>
   <body>
-   
-
-    <main>
-<form class="form">
+     <main>
+<form class="form" id="form">
   <label class="input-label">
     <input type="text" name="search-text" placeholder="Search images..." required>
   </label>
@@ -34,7 +32,12 @@
   <button class="gallery-btn btn hide" type="submit">Load more</button>
   <div class="loader hide" ></div>
 </div>
-
-   </main>
+<button class="nav-btn hide" type="button" >
+  <a href="#form" class="nav-link"><svg class="arrow-icon" width="20" height="20">
+     <use href="/goit-js-hw-12/assets/sprite-oLODIC3w.svg#icon-arrow-up"></use>
+     </svg>
+  </a>
+</button>
+</main>
   </body>
 </html>
