@@ -1,49 +1,81 @@
 
-import {getImagesByQuery} from "./js/pixabay-api.js";
 import * as render from "./js/render-functions.js";
+import * as request from "./js/pixabay-api.js";
 
 const form = document.querySelector(".form");
-const input = document.querySelector("input");
 export const gallery = document.querySelector(".gallery");
 export const loader = document.querySelector(".loader");
+export const button = document.querySelector(".gallery-btn");
 
 form.addEventListener("submit", handleSubmit);
-gallery.addEventListener("click", handleClick);
+button.addEventListener("click", handleClick);
+
+let inputData = "";
+let page = 1;
+let totalPages = 0;
+/* const totalPages = response.totalHits / response.hits;
+console.log(totalPages); */
+async function handleSubmit(event){
+event.preventDefault();
+render.hideLoadMoreButton();
+inputData = event.target.elements['search-text'].value.trim();
+console.log(inputData.length);
 
 
-export let inputHandle = "";
+ if(!inputData.length){ 
+  return render.showEmptyInputError();
+ }
+ render.clearGallery();
+ render.showLoader();
 
- function handleSubmit(event){
-    event.preventDefault();
-    render.showLoader(); 
-    render.clearGallery();
-   inputHandle = input.value.trim();
-    if(inputHandle === ""){
-        render.hideLoader()
-        return;
+ try {
+     page = 1;
+     const data = await request.getImagesByQuery(inputData, page); 
+     if(!data.hits.length){ 
+         return render.showError();
+        }
+        render.markup(data.hits);
+        render.showLoadMoreButton();
+        totalPages = data.totalHits / request.perPage;
+        if (page >= totalPages) {
+                render.hideLoadMoreButton();
+                render.showFinishedCollectionError();
+            }
+
+
+} catch (error) {
+    console.log(error.message);       
+}finally{
+    render.hideLoader();
+    event.target.reset();
+}
+}
+ console.log(totalPages);
+ 
+
+async function handleClick(){
+    button.disabled = true;
+    try {
+        page += 1;
+        console.log(page);
+        
+        const newQuery = await request.getImagesByQuery(inputData, page);
+        console.log(newQuery.hits);
+          if (page >= totalPages) {
+                render.hideLoadMoreButton();
+                render.showFinishedCollectionError();
+            } 
+        render.markup(newQuery.hits);
+        button.disabled = false;
+        const card = document.querySelector(".gallery-item");
+        const cardHeight = card.getBoundingClientRect().height;
+       window.scrollBy({
+          left: 0,
+          top: `${cardHeight * 2}`,
+          behavior: "smooth",
+});        
+    } catch (error) {
+        alert (error.message)
     }
-    processingResponse()
-}
 
-function processingResponse(){
-    getImagesByQuery(inputHandle)
-    .then(response => {
-        if(response.length === 0){
-           render.showError();
-        } else{
-        render.markup(response);
-    }
-})
-    .catch(() => {
-        render.showError();
-})
-    .finally(() => {
-        render.hideLoader();
-    })   
-}
-    
-function handleClick(event){
-if (!event.target.classList.contains("gallery-img")){
- return;
-}
 }
