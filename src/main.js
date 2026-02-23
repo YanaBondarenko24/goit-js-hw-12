@@ -6,6 +6,7 @@ const form = document.querySelector(".form");
 export const gallery = document.querySelector(".gallery");
 export const loader = document.querySelector(".loader");
 export const button = document.querySelector(".gallery-btn");
+export const arrow = document.querySelector(".nav-btn");
 
 form.addEventListener("submit", handleSubmit);
 button.addEventListener("click", handleClick);
@@ -22,7 +23,7 @@ inputData = event.target.elements['search-text'].value.trim();
  }
  render.clearGallery();
  render.showLoader();
-
+ 
  try {
      page = 1;
      const data = await request.getImagesByQuery(inputData, page); 
@@ -31,6 +32,7 @@ inputData = event.target.elements['search-text'].value.trim();
         }
         render.markup(data.hits);
         render.showLoadMoreButton();
+        
         totalPages = data.totalHits / request.perPage;
         if (page >= totalPages) {
                 render.hideLoadMoreButton();
@@ -44,10 +46,11 @@ inputData = event.target.elements['search-text'].value.trim();
 }
 }
  
-
 async function handleClick(){
     render.showLoader();
+    render.hideLoadMoreButton();
     button.disabled = true;
+    render.hideArrow();
     try {
         page += 1;       
         const newQuery = await request.getImagesByQuery(inputData, page);
@@ -55,8 +58,10 @@ async function handleClick(){
                 render.hideLoadMoreButton();
                 render.showFinishedCollectionError();
             } 
+        render.showArrow();
         render.markup(newQuery.hits);
         render.hideLoader();
+        render.showLoadMoreButton();
         button.disabled = false;
         const card = document.querySelector(".gallery-item");
         const cardHeight = card.getBoundingClientRect().height;

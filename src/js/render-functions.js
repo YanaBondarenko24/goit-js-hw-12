@@ -59,6 +59,12 @@ main.button.classList.remove("hide");
 export function hideLoadMoreButton(){
 main.button.classList.add("hide");
 }
+export function showArrow(){
+  main.arrow.classList.remove("hide");
+}
+export function hideArrow(){
+  main.arrow.classList.remove("hide");
+}
 
  
 export function showError(){
