@@ -30,7 +30,7 @@ inputData = event.target.elements['search-text'].value.trim();
      if(!data.hits.length){ 
          return render.showError();
         }
-        render.markup(data.hits);
+        render.renderGallery(data.hits);
         render.showLoadMoreButton();
         
         totalPages = data.totalHits / request.perPage;
@@ -57,12 +57,15 @@ async function handleClick(){
           if (page >= totalPages) {
                 render.hideLoadMoreButton();
                 render.showFinishedCollectionError();
-            } 
+            } else {
+            render.showLoadMoreButton();
+            button.disabled = false;
+        }
         render.showArrow();
-        render.markup(newQuery.hits);
+        render.renderGallery(newQuery.hits);
         render.hideLoader();
-        render.showLoadMoreButton();
-        button.disabled = false;
+      
+        
         const card = document.querySelector(".gallery-item");
         const cardHeight = card.getBoundingClientRect().height;
        window.scrollBy({
@@ -74,5 +77,6 @@ async function handleClick(){
         render.showError();
     }finally{
         render.hideLoader();
+       
     }
 }

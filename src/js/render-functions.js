@@ -35,7 +35,7 @@ export function createGallery(images){
 
 }
    
-export function markup(arr){
+export function renderGallery(arr){
     main.gallery.insertAdjacentHTML("beforeend", createGallery(arr));
     lightbox.refresh();
 }
@@ -63,7 +63,7 @@ export function showArrow(){
   main.arrow.classList.remove("hide");
 }
 export function hideArrow(){
-  main.arrow.classList.remove("hide");
+  main.arrow.classList.add("hide");
 }
 
  
