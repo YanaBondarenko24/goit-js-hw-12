@@ -13,15 +13,10 @@ button.addEventListener("click", handleClick);
 let inputData = "";
 let page = 1;
 let totalPages = 0;
-/* const totalPages = response.totalHits / response.hits;
-console.log(totalPages); */
 async function handleSubmit(event){
 event.preventDefault();
 render.hideLoadMoreButton();
 inputData = event.target.elements['search-text'].value.trim();
-console.log(inputData.length);
-
-
  if(!inputData.length){ 
   return render.showEmptyInputError();
  }
@@ -41,31 +36,27 @@ console.log(inputData.length);
                 render.hideLoadMoreButton();
                 render.showFinishedCollectionError();
             }
-
-
 } catch (error) {
-    console.log(error.message);       
+    render.showError();     
 }finally{
     render.hideLoader();
     event.target.reset();
 }
 }
- console.log(totalPages);
  
 
 async function handleClick(){
+    render.showLoader();
     button.disabled = true;
     try {
-        page += 1;
-        console.log(page);
-        
+        page += 1;       
         const newQuery = await request.getImagesByQuery(inputData, page);
-        console.log(newQuery.hits);
           if (page >= totalPages) {
                 render.hideLoadMoreButton();
                 render.showFinishedCollectionError();
             } 
         render.markup(newQuery.hits);
+        render.hideLoader();
         button.disabled = false;
         const card = document.querySelector(".gallery-item");
         const cardHeight = card.getBoundingClientRect().height;
@@ -75,7 +66,8 @@ async function handleClick(){
           behavior: "smooth",
 });        
     } catch (error) {
-        alert (error.message)
+        render.showError();
+    }finally{
+        render.hideLoader();
     }
-
 }

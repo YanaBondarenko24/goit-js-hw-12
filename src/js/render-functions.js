@@ -7,7 +7,7 @@ import * as main from "../main";
 let lightbox = new SimpleLightbox(".gallery a");
 
 export function createGallery(images){
- return images.map(({webformatURL,largeImageURL, tags, likes, views, comments, downloards}) => 
+ return images.map(({webformatURL,largeImageURL, tags, likes, views, comments, downloads}) => 
       `<li class="gallery-item">
      <a class="gallery-link" href="${largeImageURL}">
      <img class="gallery-img" src="${webformatURL}" alt="${tags}" width="360" height="200"/>
@@ -26,8 +26,8 @@ export function createGallery(images){
      <p class="gallery-info-text">${comments}</p>
      </li>
      <li class="gallery-info-item">
-     <h3 class="gallery-info-title">Downloards</h3>
-     <p class="gallery-info-text">${downloards}</p>
+     <h3 class="gallery-info-title">Downloads</h3>
+     <p class="gallery-info-text">${downloads}</p>
      </li>
      </ul>
     </li>`).join("");
