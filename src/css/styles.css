@@ -91,6 +91,7 @@ ul{
     right: 45%;
     margin-top: 10px;
     margin-bottom: 15px;
+    transform: translateX(-45px);
     
 }
 
@@ -107,6 +108,7 @@ ul{
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
     margin-top: 10px;
+    transform: translateX(-45px);
     
 }
 
