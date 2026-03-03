@@ -2,9 +2,13 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
-import * as main from "../main";
+
 
 let lightbox = new SimpleLightbox(".gallery a");
+ const gallery = document.querySelector(".gallery");
+ const loader = document.querySelector(".loader");
+ const arrow = document.querySelector(".nav-btn");
+
 
 export function createGallery(images){
  return images.map(({webformatURL,largeImageURL, tags, likes, views, comments, downloads}) => 
@@ -36,34 +40,34 @@ export function createGallery(images){
 }
    
 export function renderGallery(arr){
-    main.gallery.insertAdjacentHTML("beforeend", createGallery(arr));
+    gallery.insertAdjacentHTML("beforeend", createGallery(arr));
     lightbox.refresh();
 }
 
 export function clearGallery(){
-   main.gallery.innerHTML = "";
+   gallery.innerHTML = "";
 }
 
 export function showLoader(){
-  main.loader.classList.remove("hide");
+  loader.classList.remove("hide");
 }
 
 export function hideLoader(){
-  main.loader.classList.add("hide");
+  loader.classList.add("hide");
 }
 
-export function showLoadMoreButton(){
-main.button.classList.remove("hide");
+export function showLoadMoreButton(elem){
+elem.classList.remove("hide");
 }
 
-export function hideLoadMoreButton(){
-main.button.classList.add("hide");
+export function hideLoadMoreButton(elem){
+elem.classList.add("hide");
 }
 export function showArrow(){
-  main.arrow.classList.remove("hide");
+  arrow.classList.remove("hide");
 }
 export function hideArrow(){
-  main.arrow.classList.add("hide");
+  arrow.classList.add("hide");
 }
 
  
